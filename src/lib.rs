@@ -1,10 +1,10 @@
-mod cipher;
-mod caeser;
-mod vigenere;
-mod railfence;
-mod affine;
-mod beaufort;
-mod redefence;
+pub mod cipher;
+pub mod caeser;
+pub mod vigenere;
+pub mod railfence;
+pub mod affine;
+pub mod beaufort;
+pub mod redefence;
 
 fn index_of_coincidence(text : &str) -> f64 {
     let mut counts = [0u32; 26];
