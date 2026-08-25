@@ -18,84 +18,45 @@ impl RailFence {
         };
         vector
     }
+
+    pub fn get_rail_indices(&self, len : usize) -> Vec<usize> {
+        if self.key <= 1 {
+            return vec![0; len]
+        };
+
+        let cycle = (self.key as usize-1) * 2;
+        (0..len).map( |i|{
+            let rem = i % cycle;
+            if rem < self.key as usize {rem} else {cycle-rem}
+        }
+        ).collect()
+    }
 }
 
 impl Cipher for RailFence {
     fn encipher(&self,text : &str) -> String {
-        let rails = self.key as usize; 
-        let fences = text.len(); 
-        let mut fenced_rails: Vec<char> = vec![' '; rails * fences];
-        let letters: Vec<char> = text.chars().collect();
-        let mut rows = 0;
-        let mut down = false;
-        for (index, &chr) in letters.iter().enumerate() {
-            if rows == rails - 1 || rows == 0 {
-                down = !down;
-            }
-            fenced_rails[(fences * (rows)) + index] = chr;
-            if rails != 1 {
-                if down {
-                    rows += 1;
-                } else {
-                    rows -= 1;
+        let rails = self.key as usize;
+        let mut ciphertext = String::with_capacity(text.len());
+        let indices = self.get_rail_indices(text.len());
+        let mut chars = text.chars().collect::<Vec<char>>();
+        for rail in 0..rails {
+            for (index,&char_rail) in indices.iter().enumerate() {
+                if rail == char_rail {
+                    ciphertext.push(chars[index])
                 }
             }
         }
-        let mut ciphertext = String::new();
-        for chr in fenced_rails {
-            if chr != ' ' {
-                ciphertext.push(chr);
-            }
-        }
-
         ciphertext
+
+        
     }
 
     fn decipher(&self,text : &str) -> String {
-        let rails = self.key as usize; 
-        let fences = text.len(); 
-        let mut fenced_rails: Vec<char> = vec![' '; rails * fences];
-        let letters: Vec<char> = text.chars().collect();
-        let mut rows = 0;
-        let mut down = false;
-        for (index, &chr) in letters.iter().enumerate() {
-            if rows == rails - 1 || rows == 0 {
-                down = !down;
-            }
-            fenced_rails[(fences * (rows)) + index] = '?';
-            if rails != 1 {
-                if down {
-                    rows += 1;
-                } else {
-                    rows -= 1;
-                }
-            }
-        }
-        
-        let mut text_chars = text.chars();
-        for chr in &mut fenced_rails {
-            if *chr == '?' {
-                *chr = text_chars.next().unwrap();
-            }
-        }
+        let indices= self.get_rail_indices(text.len());
 
         let mut plaintext = String::new();
 
-        let mut rows = 0;
-        let mut down = false;
-        for (index, &chr) in letters.iter().enumerate() {
-            if rows == rails - 1 || rows == 0 {
-                down = !down;
-            }
-            plaintext.push(fenced_rails[(fences * rows) + index]);
-            if rails != 1 {
-                if down {
-                    rows += 1;
-                } else {
-                    rows -= 1;
-                }
-            }
-        }
+        
         plaintext
     }
 }

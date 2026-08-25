@@ -20,7 +20,7 @@ dependencies = [
 ]
 
 [[package]]
-name = "ciphera"
+name = "cifers"
 version = "0.1.0"
 dependencies = [
  "rand",
