@@ -66,8 +66,13 @@ mod tests {
 
     }
     #[test]
-    fn shift_mix_symbols() {
+    fn encipher_mix_symbols() {
         assert_eq!(Caeser::new(3).encipher("Ex@MpletexT!"),String::from("Ha@PsohwhaW!"));
+
+    }
+    #[test]
+    fn decipher_mix_symbols() {
+        assert_eq!(Caeser::new(3).decipher("Ha@PsohwhaW!"),String::from("Ex@MpletexT!"));
 
     }
 
