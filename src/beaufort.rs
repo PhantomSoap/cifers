@@ -100,12 +100,12 @@ mod test {
 
     #[test]
     pub fn encipher_one_letter_key() {
-        assert_eq!(Beaufort::new(String::from("s")).encipher("3x@mplEtexT"),"")
+        assert_eq!(Beaufort::new(String::from("s")).encipher("3x@mplEtexT"),"3v@gdhOzovZ")
     }
 
     #[test]
     pub fn decipher_one_letter_key() {
-        assert_eq!(Beaufort::new(String::from("s")).decipher(""),"3x@mplEtexT")
+        assert_eq!(Beaufort::new(String::from("s")).decipher("3v@gdhOzovZ"),"3x@mplEtexT")
     }
 
     #[test]
