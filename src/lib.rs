@@ -12,6 +12,7 @@ pub use vigenere::Vigenere;
 pub use beaufort::Beaufort;
 pub use redefence::Redefence;
 pub use affine::Affine;
+pub use railfence::Railfence;
 
 
 fn index_of_coincidence(text : &str) -> f64 {

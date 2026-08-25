@@ -1,10 +1,10 @@
 use crate::cipher::Cipher;
 
-pub struct RailFence {
+pub struct Railfence {
     key : u8,
 }
 
-impl RailFence {
+impl Railfence {
     pub fn new(key : u8) -> Self{
         Self {
             key,
@@ -33,7 +33,7 @@ impl RailFence {
     }
 }
 
-impl Cipher for RailFence {
+impl Cipher for Railfence {
     fn encipher(&self,text : &str) -> String {
         let rails = self.key as usize;
         let mut ciphertext = String::with_capacity(text.len());
@@ -66,10 +66,10 @@ mod tests {
     use super::*;
     #[test]
     fn encipher() {
-        assert_eq!(RailFence::new(4).encipher("exampletext"),String::from("eexltapetmx"))
+        assert_eq!(Railfence::new(4).encipher("exampletext"),String::from("eexltapetmx"))
     }
     #[test]
     fn decipher() {
-        assert_eq!(RailFence::new(4).decipher("eexltapetmx"),String::from("exampletext"))
+        assert_eq!(Railfence::new(4).decipher("eexltapetmx"),String::from("exampletext"))
     }
 }
