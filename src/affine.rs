@@ -24,6 +24,9 @@ impl Affine {
     }
 
     pub fn shift_char(&self,chr : char,decrypt : bool) -> char {
+        if !chr.is_alphabetic() {
+            return chr
+        }
         let base = if chr.is_ascii_uppercase() {b'A'} else {b'a'};
         if !decrypt {
             (((self.a as u32 * (chr as u32 - base as u32) + self.b as u32)) % 26 + base as u32) as u8 as char
