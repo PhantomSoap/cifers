@@ -63,9 +63,20 @@ mod tests {
         assert_eq!(Affine::new(7,12).encipher("exampletext"),"ormsnloporp");
     }
 
+    
+
     #[test]
     fn decipher() {
         assert_eq!(Affine::new(7,12).decipher("ormsnloporp"),"exampletext");
+    }
+
+    #[test]
+    fn decipher_symbols() {
+        assert_eq!(Affine::new(7,12).decipher("6orm%snloporp$"),"6exa%mpletext$");
+    }
+    #[test]
+    fn encipher_symbols() {
+        assert_eq!(Affine::new(7,12).encipher("6exa%mpletext"),"6orm%snloporp$");
     }
 
     #[test]
