@@ -6,6 +6,14 @@ pub mod affine;
 pub mod beaufort;
 pub mod redefence;
 
+
+pub use caeser::Caeser;
+pub use vigenere::Vigenere;
+pub use beaufort::Beaufort;
+pub use redefence::Redefence;
+pub use affine::Affine;
+
+
 fn index_of_coincidence(text : &str) -> f64 {
     let mut counts = [0u32; 26];
     let mut total_letters = 0;     
