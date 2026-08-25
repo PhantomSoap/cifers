@@ -54,6 +54,11 @@ mod tests {
     use super::*;
 
     #[test] 
+    fn identity_cipher() {
+        assert_eq!(Affine::new(1,0).encipher("3x@mplEtexT"),"3x@mplEtexT");
+    }
+
+    #[test] 
     fn shift_char() {
         assert_eq!(Affine::new(25,25).shift_char('A', false),'Z');
     }
@@ -119,9 +124,13 @@ mod tests {
 
     #[test]
     #[should_panic]
-    fn invalid_b() {
+    fn over_value_b() {
         let _ = Affine::new(17,27);
-        
+    }
+    #[test]
+    #[should_panic]
+    fn under_value_b() {
+        let _ = Affine::new(17,-1);
     }
     
 }
