@@ -3,6 +3,7 @@ name = "cifers"
 version = "0.1.0"
 edition = "2024"
 license = "MIT"
+description = "rust crate for ciphers like Caeser, Vigenere... etc"
 
 [dependencies]
 rand = "0.10.2"
