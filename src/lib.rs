@@ -13,6 +13,7 @@ pub use beaufort::Beaufort;
 pub use redefence::Redefence;
 pub use affine::Affine;
 pub use railfence::Railfence;
+pub use cipher::Cipher;
 
 
 fn index_of_coincidence(text : &str) -> f64 {
