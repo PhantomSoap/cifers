@@ -16,7 +16,7 @@ impl Affine {
         }
     }
 
-    pub fn affine() -> Self {
+    pub fn atbash() -> Self {
         Self {
             a : 25,
             b : 25,
@@ -87,6 +87,28 @@ mod tests {
     #[test]
     fn decipher_large_ab() {
         assert_eq!(Affine::new(17,24).decipher("ozyutdojozj"),"exampletext");
+    }
+
+    #[test]
+    fn boundry_a_b_encipher() {
+        assert_eq!(Affine::new(1,0).encipher("3x@mplEtexT"),"3x@mplEtexT");
+        assert_eq!(Affine::new(25,0).encipher("3x@mplEtexT"),"3d@olpWhwdH");
+        assert_eq!(Affine::new(1,25).encipher("3x@mplEtexT"),"3w@lokDsdwS");
+        assert_eq!(Affine::new(25,25).encipher("3x@mplEtexT"),"3c@nkoVgvcG");
+    }
+
+    #[test]
+    fn boundry_a_b_decipher() {
+        assert_eq!(Affine::new(1,0).decipher("3x@mplEtexT"),"3x@mplEtexT");
+        assert_eq!(Affine::new(25,0).decipher("3d@olpWhwdH"),"3x@mplEtexT");
+        assert_eq!(Affine::new(1,25).decipher("3w@lokDsdwS"),"3x@mplEtexT");
+        assert_eq!(Affine::new(25,25).decipher("3c@nkoVgvcG"),"3x@mplEtexT");
+    }
+    #[test]
+    fn atbash_test() {
+        assert_eq!(Affine::new(25,25).encipher("3x@mplEtexT"),Affine::atbash().encipher("3x@mplEtexT"));
+        assert_eq!(Affine::atbash().encipher("3x@mplEtexT"),"3c@nkoVgvcG");
+    
     }
 
     #[test]
