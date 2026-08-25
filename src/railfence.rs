@@ -6,6 +6,7 @@ pub struct Railfence {
 
 impl Railfence {
     pub fn new(key : u8) -> Self{
+        
         Self {
             key,
         }
@@ -72,4 +73,24 @@ mod tests {
     fn decipher() {
         assert_eq!(Railfence::new(4).decipher("eexltapetmx"),String::from("exampletext"))
     }
+
+    #[test]
+    fn encipher_mix_symbols() {
+        assert_eq!(Railfence::new(4).encipher("3x@mplEtexT"),String::from("3Exlt@peTmx"))
+    }
+    #[test]
+    fn decipher_mix_symbols() {
+        assert_eq!(Railfence::new(4).decipher("3Exlt@peTmx"),String::from("3x@mplEtexT"))
+    }
+
+    #[test]
+    fn encipher_larger_key() {
+        assert_eq!(Railfence::new(15).encipher("3x@mplEtexT"),String::from("3x@mplEtexT"))
+    }
+    #[test]
+    fn decipher_larger_key() {
+        assert_eq!(Railfence::new(15).decipher("3x@mplEtexT"),String::from("3x@mplEtexT"))
+    }
+    
+
 }
