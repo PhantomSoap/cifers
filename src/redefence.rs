@@ -109,4 +109,13 @@ mod tests {
     fn decipher() {
         assert_eq!(Redefence::new(String::from("abcd")).decipher("eexltapetmx"),String::from("exampletext"))
     }
+
+    #[test]
+    fn encipher_mix_symbols() {
+        assert_eq!(Redefence::new(String::from("code")).encipher("3x@mplEtexT"),String::from("3Emxxlt@peT"))
+    }
+    #[test]
+    fn decipher_mix_symbols() {
+        assert_eq!(Redefence::new(String::from("code")).decipher("3Emxxlt@peT   "),String::from("3x@mplEtexT"))
+    }
 }

@@ -39,7 +39,7 @@ impl Cipher for Railfence {
         let rails = self.key as usize;
         let mut ciphertext = String::with_capacity(text.len());
         let indices = self.get_rail_indices(text.len());
-        let mut chars = text.chars().collect::<Vec<char>>();
+        let chars = text.chars().collect::<Vec<char>>();
         for rail in 0..rails {
             for (index,&char_rail) in indices.iter().enumerate() {
                 if rail == char_rail {
@@ -53,12 +53,19 @@ impl Cipher for Railfence {
     }
 
     fn decipher(&self,text : &str) -> String {
-        let indices= self.get_rail_indices(text.len());
-
-        let mut plaintext = String::new();
-
+        let rails = self.key;
+        let indices = self.get_rail_indices(text.len());
+        let mut plaintext = vec![' '; text.len()];
+        let mut text_chars = text.chars();
+        for rail in 0..rails as usize {
+            for (index,_chr_rail) in indices.iter().enumerate().filter(|(_index,chr_rail)| **chr_rail == rail) {
+                plaintext[index] = text_chars.next().unwrap()
+            }
+        }
         
-        plaintext
+        
+
+        plaintext.iter().collect()
     }
 }
 
@@ -90,6 +97,11 @@ mod tests {
     #[test]
     fn decipher_larger_key() {
         assert_eq!(Railfence::new(15).decipher("3x@mplEtexT"),String::from("3x@mplEtexT"))
+    }
+
+    #[test]
+    fn get_rail_indices() {
+        assert_eq!(Railfence::new(4).get_rail_indices("exampletext".len()),vec![0, 1, 2, 3, 2, 1, 0, 1, 2, 3, 2])
     }
     
 
