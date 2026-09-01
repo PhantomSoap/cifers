@@ -25,4 +25,11 @@ impl Cipher for CustomCaesar {
         text.chars().map(|c| self.shift_char(c, -self.shift)).collect()
     }
 }
-
+#[cfg(test)]
+mod tests {
+    use super::{Cipher, CustomCaesar};
+    #[test]
+    fn shift_word() {
+        assert_eq!(CustomCaesar{shift : 3, alphabet : String::from("abcdefghijklmnopqrstuvwxyz")}.encipher("exampletext"),String::from("hadpsohwhaw"));
+    }
+}
