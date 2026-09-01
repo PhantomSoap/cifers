@@ -15,5 +15,13 @@ pub fn has_duplicate(alphabet : &str) -> bool {
          }
     } 
     false
+}
 
+pub fn is_alphabet(alphabet : &str,text : &str) -> bool {
+    for c in text.chars() {
+        if !alphabet.contains(c) {
+            return false
+        }
+    }
+    true
 }
