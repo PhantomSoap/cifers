@@ -1,7 +1,7 @@
 pub mod ciphers;
+pub mod custom_alphabet_ciphers;
 
-
-pub use ciphers::caeser::Caeser;
+pub use ciphers::caesar::Caeser;
 pub use ciphers::vigenere::Vigenere;
 pub use ciphers::beaufort::Beaufort;
 pub use ciphers::redefence::Redefence;

@@ -25,6 +25,7 @@ impl Caeser {
         shifts
     }
 
+
     pub fn shift_char(&self,chr : char,shift : i32) -> char{
         if chr.is_alphabetic() {
             let base = if chr.is_ascii_uppercase() {b'A'}  else {b'a'};
@@ -33,6 +34,8 @@ impl Caeser {
             chr
         }
     }
+
+    
 }
 
 impl Cipher for Caeser {
