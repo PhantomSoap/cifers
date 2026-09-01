@@ -1,4 +1,4 @@
-use crate::cipher::Cipher;
+use crate::Cipher;
 
 pub struct Caeser {
     shift : i32,

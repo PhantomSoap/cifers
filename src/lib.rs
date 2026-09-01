@@ -1,19 +1,17 @@
-pub mod cipher;
-pub mod caeser;
-pub mod vigenere;
-pub mod railfence;
-pub mod affine;
-pub mod beaufort;
-pub mod redefence;
+pub mod ciphers;
 
 
-pub use caeser::Caeser;
-pub use vigenere::Vigenere;
-pub use beaufort::Beaufort;
-pub use redefence::Redefence;
-pub use affine::Affine;
-pub use railfence::Railfence;
-pub use cipher::Cipher;
+pub use ciphers::caeser::Caeser;
+pub use ciphers::vigenere::Vigenere;
+pub use ciphers::beaufort::Beaufort;
+pub use ciphers::redefence::Redefence;
+pub use ciphers::affine::Affine;
+pub use ciphers::railfence::Railfence;
+
+pub trait Cipher {
+    fn encipher(&self,text : &str) -> String;
+    fn decipher(&self,text : &str) -> String; 
+}
 
 
 fn index_of_coincidence(text : &str) -> f64 {

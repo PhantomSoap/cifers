@@ -1,6 +1,6 @@
 use rand::distr::{Alphabetic, SampleString};
 
-use crate::cipher::Cipher;
+use crate::Cipher;
 
 pub struct Vigenere {
     code : String,
