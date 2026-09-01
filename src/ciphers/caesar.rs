@@ -1,4 +1,4 @@
-use crate::Cipher;
+use crate::{Cipher};
 
 pub struct Caeser {
     shift : i32,
@@ -12,7 +12,6 @@ impl Caeser {
             shift,
         }
     }
-
     pub fn rot_13() -> Self {
         Self { shift : 13 }
     }
@@ -35,7 +34,7 @@ impl Caeser {
         }
     }
 
-    
+
 }
 
 impl Cipher for Caeser {
