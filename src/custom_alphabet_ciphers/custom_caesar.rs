@@ -1,3 +1,5 @@
+use crate::Cipher;
+
 pub struct CustomCaesar {
     shift : i32,
     alphabet : String,
@@ -11,6 +13,16 @@ impl CustomCaesar {
             c
         }
         
+    }
+}
+
+impl Cipher for CustomCaesar {
+    fn encipher(&self,text : &str) -> String {
+        text.chars().map(|c| self.shift_char(c, self.shift)).collect()
+    }
+
+    fn decipher(&self,text : &str) -> String {
+        text.chars().map(|c| self.shift_char(c, -self.shift)).collect()
     }
 }
 
