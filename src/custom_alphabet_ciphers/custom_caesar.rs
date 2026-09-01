@@ -7,8 +7,13 @@ pub struct CustomCaesar {
 
 impl CustomCaesar {
     fn shift_char(&self,c : char,shift : i32) -> char{
-        if let Some(index) = self.alphabet.chars().position(|x|x==c) {
-            self.alphabet.chars().nth((index + shift as usize).rem_euclid(self.alphabet.len())).unwrap_or(c)
+        if let Some(index) = self.alphabet.chars().position(|x|x==c.to_ascii_lowercase()) {
+            if c.is_ascii_uppercase() {
+                self.alphabet.chars().nth((index + shift as usize).rem_euclid(self.alphabet.len())).unwrap_or(c).to_ascii_uppercase()
+            } else {
+                self.alphabet.chars().nth((index + shift as usize).rem_euclid(self.alphabet.len())).unwrap_or(c)
+
+            }
         } else {
             c
         }
@@ -31,5 +36,10 @@ mod tests {
     #[test]
     fn shift_word() {
         assert_eq!(CustomCaesar{shift : 3, alphabet : String::from("abcdefghijklmnopqrstuvwxyz")}.encipher("exampletext"),String::from("hadpsohwhaw"));
+    }
+
+    #[test]
+    fn shift_word_mix_case() {
+        assert_eq!(CustomCaesar{shift : 3, alphabet : String::from("abcdefghijklmnopqrstuvwxyz")}.encipher("examPletexT"),String::from("hadpSohwhaW"));
     }
 }
