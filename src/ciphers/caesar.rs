@@ -7,10 +7,15 @@ pub struct Caeser {
     
 
 impl Caeser {
-    pub fn new(shift : i32) -> Self {
+    pub fn new() -> Self {
         Self {
-            shift,
+            shift : 0
         }
+    }
+
+    pub fn set_shift(mut self, shift : i32) -> Self{
+        self.shift = shift;
+        self
     }
     pub fn rot_13() -> Self {
         Self { shift : 13 }
@@ -19,7 +24,7 @@ impl Caeser {
     pub fn brute_force(text : &str) -> Vec<String> {
         let mut shifts : Vec<String> = Vec::new();
         for i in 0..25 {
-            shifts.push(Self::new(i).encipher(text))
+            shifts.push(Self::new().set_shift(i).encipher(text))
         }
         shifts
     }
@@ -51,30 +56,30 @@ mod tests {
     use super::*;
     #[test]
     fn shift_char() {
-        assert_eq!(Caeser::new(1).shift_char('a',1),'b');
+        assert_eq!(Caeser::new().set_shift(1).shift_char('a',1),'b');
     }
 
     #[test]
     fn uppercase_shift() {
-        assert_eq!(Caeser::new(1).shift_char('A',1),'B');
+        assert_eq!(Caeser::new().set_shift(1).shift_char('A',1),'B');
     }
     #[test]
     fn shift_word() {
-        assert_eq!(Caeser::new(3).encipher("exampletext"),String::from("hadpsohwhaw"));
+        assert_eq!(Caeser::new().set_shift(3).encipher("exampletext"),String::from("hadpsohwhaw"));
     }
     #[test]
     fn shift_mix_case() {
-        assert_eq!(Caeser::new(3).encipher("ExaMpletexT"),String::from("HadPsohwhaW"));
+        assert_eq!(Caeser::new().set_shift(3).encipher("ExaMpletexT"),String::from("HadPsohwhaW"));
 
     }
     #[test]
     fn encipher_mix_symbols() {
-        assert_eq!(Caeser::new(3).encipher("Ex@MpletexT!"),String::from("Ha@PsohwhaW!"));
+        assert_eq!(Caeser::new().set_shift(3).encipher("Ex@MpletexT!"),String::from("Ha@PsohwhaW!"));
 
     }
     #[test]
     fn decipher_mix_symbols() {
-        assert_eq!(Caeser::new(3).decipher("Ha@PsohwhaW!"),String::from("Ex@MpletexT!"));
+        assert_eq!(Caeser::new().set_shift(3).decipher("Ha@PsohwhaW!"),String::from("Ex@MpletexT!"));
 
     }
 
