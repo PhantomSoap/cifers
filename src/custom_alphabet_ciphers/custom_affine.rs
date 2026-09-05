@@ -1,0 +1,55 @@
+use crate::Cipher;
+
+pub struct CustomAffine {
+    a : u16,
+    b : u16,
+    alphabet : String,
+}
+impl CustomAffine {
+    pub fn shift_char(&self,chr : char,decrypt : bool) -> char {
+        let x = match self.alphabet.find(chr) {
+            Some(i) => i as u16,
+            None => return chr,
+        };
+
+        if decrypt {
+            let modinverse = (0..self.alphabet.len()).find(|&x| (self.a * x as u16) % self.alphabet.len() as u16 == 1).unwrap();
+            self.alphabet.chars().nth(((modinverse as i16 * (x as i16 - self.b as i16)).rem_euclid(self.alphabet.len() as i16)) as usize).unwrap()
+        } else {
+            self.alphabet.chars().nth(((self.a * x + self.b) % self.alphabet.len() as u16) as usize).unwrap()
+        }
+
+
+        
+        
+    }
+
+}
+
+
+impl Cipher for CustomAffine {
+    fn encipher(&self,text : &str) -> String {
+        text.chars().map(|c| self.shift_char(c, false)).collect()
+    }
+
+    fn decipher(&self,text : &str) -> String {
+        text.chars().map(|c| self.shift_char(c, true)).collect()
+    }
+}
+
+
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    #[test]
+    fn encipher() {
+        assert_eq!(CustomAffine {a : 7,b : 12, alphabet : String::from("abcdefghijklmnopqrstuvwxyz")}.encipher("exampletext"),"ormsnloporp");
+    }
+
+    #[test]
+    fn decipher() {
+        assert_eq!(CustomAffine {a : 7,b : 12, alphabet : String::from("abcdefghijklmnopqrstuvwxyz")}.decipher("ormsnloporp"),"exampletext");
+    }
+    
+}
