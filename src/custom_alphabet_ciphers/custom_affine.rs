@@ -6,20 +6,14 @@ pub struct CustomAffine {
     alphabet : String,
 }
 impl CustomAffine {
-    pub fn set_a(self,a : u16) -> Self {
-        Self {
-            a : a,
-            b : self.b,
-            alphabet : self.alphabet
-        }
+    pub fn set_a(mut self,a : u16) -> Self {
+        self.a = a;
+        self
     }
 
-    pub fn set_b(self,b : u16) -> Self {
-        Self {
-            b : b,
-            a : self.a,
-            alphabet : self.alphabet
-        }
+    pub fn set_b(mut self,b : u16) -> Self {
+       self.b = b;
+       self
     }
 
     pub fn shift_char(&self,chr : char,decrypt : bool) -> char {

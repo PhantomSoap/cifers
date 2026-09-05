@@ -7,12 +7,12 @@ pub struct CustomCaesar {
 
 impl CustomCaesar {
 
-    pub fn set_shift(self,shift : i32) -> Self {
-        Self {
-            shift,
-            alphabet : self.alphabet
-        }
+    pub fn set_shift(mut self,shift : i32) -> Self {
+        self.shift = shift;
+        self
     }
+
+    
     fn shift_char(&self,c : char,shift : i32) -> char{
         if let Some(index) = self.alphabet.chars().position(|x|x==c.to_ascii_lowercase()) {
             if c.is_ascii_uppercase() {
