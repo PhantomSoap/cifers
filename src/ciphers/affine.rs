@@ -7,13 +7,23 @@ pub struct Affine {
 
 impl Affine {
     pub fn new(a : i32, b : i32) -> Self {
-        assert!(a % 13 !=0 && a % 2 !=0);
-        assert!(b >= 0 && b <=25);
 
         Self {
-            a,
-            b,
+            a : 1,
+            b : 0,
         }
+    }
+
+    pub fn set_a(mut self,a : i32) -> Self {
+        assert!(a % 13 !=0 && a % 2 !=0);
+        self.a = a;
+        self
+    }
+
+    pub fn set_b(mut self,b : i32) -> Self {
+        assert!(b >= 0 && b <=25);
+       self.b = b;
+       self
     }
 
     pub fn atbash() -> Self {
