@@ -6,12 +6,27 @@ pub struct CustomAffine {
     alphabet : String,
 }
 impl CustomAffine {
+    pub fn set_a(self,a : u16) -> Self {
+        Self {
+            a : a,
+            b : self.b,
+            alphabet : self.alphabet
+        }
+    }
+
+    pub fn set_b(self,b : u16) -> Self {
+        Self {
+            b : b,
+            a : self.a,
+            alphabet : self.alphabet
+        }
+    }
+
     pub fn shift_char(&self,chr : char,decrypt : bool) -> char {
         let x = match self.alphabet.find(chr) {
             Some(i) => i as u16,
             None => return chr,
         };
-
         if decrypt {
             let modinverse = (0..self.alphabet.len()).find(|&x| (self.a * x as u16) % self.alphabet.len() as u16 == 1).unwrap();
             self.alphabet.chars().nth(((modinverse as i16 * (x as i16 - self.b as i16)).rem_euclid(self.alphabet.len() as i16)) as usize).unwrap()
