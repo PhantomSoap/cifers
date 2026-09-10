@@ -6,7 +6,6 @@ pub struct CustomCaesar {
 }
 
 impl CustomCaesar {
-
     pub fn set_shift(mut self,shift : i32) -> Self {
         self.shift = shift;
         self

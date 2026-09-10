@@ -6,7 +6,7 @@ pub struct Affine {
 }
 
 impl Affine {
-    pub fn new(a : i32, b : i32) -> Self {
+    pub fn new() -> Self {
 
         Self {
             a : 1,
@@ -65,63 +65,63 @@ mod tests {
 
     #[test] 
     fn identity_cipher() {
-        assert_eq!(Affine::new(1,0).encipher("3x@mplEtexT"),"3x@mplEtexT");
+        assert_eq!(Affine::new().set_a(1).set_b(0).encipher("3x@mplEtexT"),"3x@mplEtexT");
     }
 
     #[test] 
     fn shift_char() {
-        assert_eq!(Affine::new(25,25).shift_char('A', false),'Z');
+        assert_eq!(Affine::new().set_a(25).set_b(25).shift_char('A', false),'Z');
     }
 
     #[test]
     fn encipher() {
-        assert_eq!(Affine::new(7,12).encipher("exampletext"),"ormsnloporp");
+        assert_eq!(Affine::new().set_a(7).set_b(12).encipher("exampletext"),"ormsnloporp");
     }
 
     
 
     #[test]
     fn decipher() {
-        assert_eq!(Affine::new(7,12).decipher("ormsnloporp"),"exampletext");
+        assert_eq!(Affine::new().set_a(7).set_b(12).decipher("ormsnloporp"),"exampletext");
     }
 
     #[test]
     fn decipher_symbols() {
-        assert_eq!(Affine::new(7,12).decipher("6orm%snloporp$"),"6exa%mpletext$");
+        assert_eq!(Affine::new().set_a(7).set_b(12).decipher("6orm%snloporp$"),"6exa%mpletext$");
     }
     #[test]
     fn encipher_symbols() {
-        assert_eq!(Affine::new(7,12).encipher("6exa%mpletext"),"6orm%snloporp$");
+        assert_eq!(Affine::new().set_a(7).set_b(12).encipher("6exa%mpletext"),"6orm%snloporp$");
     }
 
     #[test]
     fn encipher_large_ab() {
-        assert_eq!(Affine::new(17,24).encipher("exampletext"),"ozyutdojozj");
+        assert_eq!(Affine::new().set_a(17).set_b(24).encipher("exampletext"),"ozyutdojozj");
     }
 
     #[test]
     fn decipher_large_ab() {
-        assert_eq!(Affine::new(17,24).decipher("ozyutdojozj"),"exampletext");
+        assert_eq!(Affine::new().set_a(17).set_b(24).decipher("ozyutdojozj"),"exampletext");
     }
 
     #[test]
     fn boundry_a_b_encipher() {
-        assert_eq!(Affine::new(1,0).encipher("3x@mplEtexT"),"3x@mplEtexT");
-        assert_eq!(Affine::new(25,0).encipher("3x@mplEtexT"),"3d@olpWhwdH");
-        assert_eq!(Affine::new(1,25).encipher("3x@mplEtexT"),"3w@lokDsdwS");
-        assert_eq!(Affine::new(25,25).encipher("3x@mplEtexT"),"3c@nkoVgvcG");
+        assert_eq!(Affine::new().set_a(1).set_b(0).encipher("3x@mplEtexT"),"3x@mplEtexT");
+        assert_eq!(Affine::new().set_a(25).set_b(0).encipher("3x@mplEtexT"),"3d@olpWhwdH");
+        assert_eq!(Affine::new().set_a(1).set_b(25).encipher("3x@mplEtexT"),"3w@lokDsdwS");
+        assert_eq!(Affine::new().set_a(25).set_b(25).encipher("3x@mplEtexT"),"3c@nkoVgvcG");
     }
 
     #[test]
     fn boundry_a_b_decipher() {
-        assert_eq!(Affine::new(1,0).decipher("3x@mplEtexT"),"3x@mplEtexT");
-        assert_eq!(Affine::new(25,0).decipher("3d@olpWhwdH"),"3x@mplEtexT");
-        assert_eq!(Affine::new(1,25).decipher("3w@lokDsdwS"),"3x@mplEtexT");
-        assert_eq!(Affine::new(25,25).decipher("3c@nkoVgvcG"),"3x@mplEtexT");
+        assert_eq!(Affine::new().set_a(1).set_b(0).decipher("3x@mplEtexT"),"3x@mplEtexT");
+        assert_eq!(Affine::new().set_a(25).set_b(0).decipher("3d@olpWhwdH"),"3x@mplEtexT");
+        assert_eq!(Affine::new().set_a(1).set_b(25).decipher("3w@lokDsdwS"),"3x@mplEtexT");
+        assert_eq!(Affine::new().set_a(25).set_b(25).decipher("3c@nkoVgvcG"),"3x@mplEtexT");
     }
     #[test]
     fn atbash_test() {
-        assert_eq!(Affine::new(25,25).encipher("3x@mplEtexT"),Affine::atbash().encipher("3x@mplEtexT"));
+        assert_eq!(Affine::new().set_a(25).set_b(25).encipher("3x@mplEtexT"),Affine::atbash().encipher("3x@mplEtexT"));
         assert_eq!(Affine::atbash().encipher("3x@mplEtexT"),"3c@nkoVgvcG");
     
     }
@@ -129,18 +129,18 @@ mod tests {
     #[test]
     #[should_panic]
     fn invalid_a() {
-        let _ = Affine::new(2,1);
+        let _ = Affine::new().set_a(2).set_b(1);
     }
 
     #[test]
     #[should_panic]
     fn over_value_b() {
-        let _ = Affine::new(17,27);
+        let _ = Affine::new().set_a(17).set_b(27);
     }
     #[test]
     #[should_panic]
     fn under_value_b() {
-        let _ = Affine::new(17,-1);
+        let _ = Affine::new().set_a(17).set_b(-1);
     }
     
 }

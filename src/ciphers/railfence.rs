@@ -5,17 +5,23 @@ pub struct Railfence {
 }
 
 impl Railfence {
-    pub fn new(key : u8) -> Self{
+    pub fn new() -> Self{
         
         Self {
-            key,
+            key : 1,
         }
+    }
+
+    pub fn set_key(mut self,key : u8) -> Self{
+        
+        self.key = key;
+        self
     }
 
     pub fn brute_force(text : &str) -> Vec<String> {
         let mut vector : Vec<String> = Vec::new();
         for i in 2..text.len()   {
-            vector.push(Self::new(i as u8).decipher(text));
+            vector.push(Self::new().set_key(i as u8).decipher(text));
         };
         vector
     }
@@ -74,34 +80,34 @@ mod tests {
     use super::*;
     #[test]
     fn encipher() {
-        assert_eq!(Railfence::new(4).encipher("exampletext"),String::from("eexltapetmx"))
+        assert_eq!(Railfence::new().set_key(4).encipher("exampletext"),String::from("eexltapetmx"))
     }
     #[test]
     fn decipher() {
-        assert_eq!(Railfence::new(4).decipher("eexltapetmx"),String::from("exampletext"))
+        assert_eq!(Railfence::new().set_key(4).decipher("eexltapetmx"),String::from("exampletext"))
     }
 
     #[test]
     fn encipher_mix_symbols() {
-        assert_eq!(Railfence::new(4).encipher("3x@mplEtexT"),String::from("3Exlt@peTmx"))
+        assert_eq!(Railfence::new().set_key(4).encipher("3x@mplEtexT"),String::from("3Exlt@peTmx"))
     }
     #[test]
     fn decipher_mix_symbols() {
-        assert_eq!(Railfence::new(4).decipher("3Exlt@peTmx"),String::from("3x@mplEtexT"))
+        assert_eq!(Railfence::new().set_key(4).decipher("3Exlt@peTmx"),String::from("3x@mplEtexT"))
     }
 
     #[test]
     fn encipher_larger_key() {
-        assert_eq!(Railfence::new(15).encipher("3x@mplEtexT"),String::from("3x@mplEtexT"))
+        assert_eq!(Railfence::new().set_key(15).encipher("3x@mplEtexT"),String::from("3x@mplEtexT"))
     }
     #[test]
     fn decipher_larger_key() {
-        assert_eq!(Railfence::new(15).decipher("3x@mplEtexT"),String::from("3x@mplEtexT"))
+        assert_eq!(Railfence::new().set_key(15).decipher("3x@mplEtexT"),String::from("3x@mplEtexT"))
     }
 
     #[test]
     fn get_rail_indices() {
-        assert_eq!(Railfence::new(4).get_rail_indices("exampletext".len()),vec![0, 1, 2, 3, 2, 1, 0, 1, 2, 3, 2])
+        assert_eq!(Railfence::new().set_key(15).get_rail_indices("exampletext".len()),vec![0, 1, 2, 3, 2, 1, 0, 1, 2, 3, 2])
     }
     
 

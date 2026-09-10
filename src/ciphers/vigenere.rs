@@ -7,10 +7,17 @@ pub struct Vigenere {
 }
 
 impl Vigenere {
-    pub fn new(code : String) -> Self {
+    pub fn new() -> Self {
         Self {
-            code : code.to_uppercase().chars().filter(|chr| chr.is_alphabetic()).collect()
+            code : String::from("")
         }
+    }
+
+    pub fn set_code(mut self,code : String) -> Self {
+        
+            self.code = code.to_uppercase().chars().filter(|chr| chr.is_alphabetic()).collect();
+            self
+        
     }
 
     pub fn encode_char(&self,chr : char,code_chr : char,decrypt : bool) -> char {
@@ -74,26 +81,26 @@ mod tests {
     use super::*;
     #[test]
     fn encode_char() {
-        assert_eq!(Vigenere::new(String::from("apple")).encode_char('b','A',false),'b');
+        assert_eq!(Vigenere::new().set_code(String::from("apple")).encode_char('b','A',false),'b');
     }
 
     #[test]
     fn encipher() {
-        assert_eq!(Vigenere::new(String::from("acrylic")).encipher("exampletext"),String::from("ezrkatgtgor"));
+        assert_eq!(Vigenere::new().set_code(String::from("acrylic")).encipher("exampletext"),String::from("ezrkatgtgor"));
     }
     #[test]
     fn decipher() {
-        assert_eq!(Vigenere::new(String::from("acrylic")).decipher("ezrkatgtgor"),String::from("exampletext"));
+        assert_eq!(Vigenere::new().set_code(String::from("acrylic")).decipher("ezrkatgtgor"),String::from("exampletext"));
     }
 
     #[test]
     fn encipher_mix_case_symbols() {
-        assert_eq!(Vigenere::new(String::from("acrylic")).encipher("Examp0let@ext0"),String::from("Ezrka0tgt@gor0"));
+        assert_eq!(Vigenere::new().set_code(String::from("acrylic")).encipher("Examp0let@ext0"),String::from("Ezrka0tgt@gor0"));
     }
 
     #[test]
     fn decipher_mix_case_symbols() {
-        assert_eq!(Vigenere::new(String::from("acrylic")).decipher("Ezrka0tgt@gor0"),String::from("Examp0let@ext0"));
+        assert_eq!(Vigenere::new().set_code(String::from("acrylic")).decipher("Ezrka0tgt@gor0"),String::from("Examp0let@ext0"));
     }
     
 

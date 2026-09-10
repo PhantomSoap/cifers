@@ -5,12 +5,29 @@ pub struct Redefence {
 }
 
 impl Redefence {
-    pub fn new(code : String,) -> Self {
+    pub fn new() -> Self {
         Self {
-            code : code.to_uppercase(),
+            code : String::new(),
         }
     }
 
+    pub fn set_code(mut self,code : String,) -> Self {
+        self.code = code.to_ascii_uppercase();
+        self
+    }
+
+    pub fn get_rail_indices(&self, len : usize) -> Vec<usize> {
+        if self.code.len() <= 1 {
+            return vec![0; len]
+        };
+
+        let cycle = (self.code.len() as usize-1) * 2;
+        (0..len).map( |i|{
+            let rem = i % cycle;
+            if rem < self.code.len() as usize {rem} else {cycle-rem}
+        }
+        ).collect()
+    }
 
 }
 
@@ -26,36 +43,20 @@ impl Cipher for Redefence {
         let orders = letters.iter().map(|(_value,index)| *index).collect::<Vec<usize>>();
         
 
-        let rails = orders.len(); 
-        let fences = text.len(); 
-        let mut fenced_rails: Vec<char> = vec![' '; rails * fences];
-        let letters: Vec<char> = text.chars().collect();
-        let mut rows = 0;
-        let mut down = false;
-        for (index, &chr) in letters.iter().enumerate() {
-            if rows == rails - 1 || rows == 0 {
-                down = !down;
-            }
-            fenced_rails[(fences * (rows)) + index] = chr;
-            if rails != 1 {
-                if down {
-                    rows += 1;
-                } else {
-                    rows -= 1;
+        let mut ciphertext = String::with_capacity(text.len());
+        let indices = self.get_rail_indices(text.len());
+        let chars = text.chars().collect::<Vec<char>>();
+        for &rail in orders.iter() {
+            for (index,&char_rail) in indices.iter().enumerate() {
+                if rail == char_rail {
+                    ciphertext.push(chars[index])
                 }
             }
         }
-        let mut ciphertext = String::new();
-        for row in orders {
-            for &chr in fenced_rails[(fences * row)..(fences * (row+1))].iter() {
-                if chr != ' ' {
-                    ciphertext.push(chr);
-                }
-            }
-        }
+        ciphertext
         
 
-        ciphertext
+
     }
 
     fn decipher(&self,text : &str) -> String {
@@ -66,35 +67,18 @@ impl Cipher for Redefence {
             .collect::<Vec<(u8,usize)>>();
         letters.sort_by_key(|&(value,_index)| value);
         let orders = letters.iter().map(|(_value,index)| *index).collect::<Vec<usize>>();
-        
-        let rails = orders.len(); 
-        let fences = text.len(); 
-        let mut fenced_rails: Vec<char> = vec![' '; rails * fences];
-        let letters: Vec<char> = text.chars().collect();
-        let mut zig_zag = (0..rails as usize)
-            .chain((1..rails as usize - 1).rev())
-            .cycle();
-        for index in 0..letters.len() {
-            fenced_rails[(fences * (zig_zag.next().unwrap())) + index] = '?';
-            
-        }
-        
+        let indices = self.get_rail_indices(text.len());
+        let mut plaintext = vec![' '; text.len()];
         let mut text_chars = text.chars();
-        for row in orders {
-            for chr in fenced_rails[(fences * row)..(fences * (row+1))].iter_mut() {
-                if *chr == '?' {
-                    *chr = text_chars.next().unwrap();
-                }
+        for &rail in orders.iter() {
+            for (index,_chr_rail) in indices.iter().enumerate().filter(|(_index,chr_rail)| **chr_rail == rail) {
+                plaintext[index] = text_chars.next().unwrap()
             }
         }
-        let mut plaintext = String::new();
-        let mut zig_zag = (0..rails as usize)
-            .chain((1..rails as usize - 1).rev())
-            .cycle();
-        for index in 0..letters.len() {
-            plaintext.push(fenced_rails[(fences * zig_zag.next().unwrap()) + index]); 
-        }
-        plaintext
+        
+        
+
+        plaintext.iter().collect()
     }
 }
 
@@ -103,19 +87,19 @@ mod tests {
     use super::*;
     #[test]
     fn encipher() {
-        assert_eq!(Redefence::new(String::from("abcd")).encipher("exampletext"),String::from("eexltapetmx"))
+        assert_eq!(Redefence::new().set_code(String::from("abcd")).encipher("exampletext"),String::from("eexltapetmx"))
     }
     #[test]
     fn decipher() {
-        assert_eq!(Redefence::new(String::from("abcd")).decipher("eexltapetmx"),String::from("exampletext"))
+        assert_eq!(Redefence::new().set_code(String::from("abcd")).decipher("eexltapetmx"),String::from("exampletext"))
     }
 
     #[test]
     fn encipher_mix_symbols() {
-        assert_eq!(Redefence::new(String::from("code")).encipher("3x@mplEtexT"),String::from("3Emxxlt@peT"))
+        assert_eq!(Redefence::new().set_code(String::from("code")).encipher("3x@mplEtexT"),String::from("3Emxxlt@peT"))
     }
     #[test]
     fn decipher_mix_symbols() {
-        assert_eq!(Redefence::new(String::from("code")).decipher("3Emxxlt@peT   "),String::from("3x@mplEtexT"))
+        assert_eq!(Redefence::new().set_code(String::from("code")).decipher("3Emxxlt@peT"),String::from("3x@mplEtexT"))
     }
 }
