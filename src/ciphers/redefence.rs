@@ -96,10 +96,10 @@ mod tests {
 
     #[test]
     fn encipher_mix_symbols() {
-        assert_eq!(Redefence::new().set_code(String::from("code")).encipher("3x@mplEtexT"),String::from("3Emxxlt@peT"))
+        assert_eq!(Redefence::new().set_code(String::from("code")).encipher("3x@mplEtexT"),String::from("3E@peTmxxlt"))
     }
     #[test]
     fn decipher_mix_symbols() {
-        assert_eq!(Redefence::new().set_code(String::from("code")).decipher("3Emxxlt@peT"),String::from("3x@mplEtexT"))
+        assert_eq!(Redefence::new().set_code(String::from("code")).decipher("3E@peTmxxlt"),String::from("3x@mplEtexT"))
     }
 }

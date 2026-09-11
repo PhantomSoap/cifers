@@ -91,7 +91,7 @@ mod tests {
     }
     #[test]
     fn encipher_symbols() {
-        assert_eq!(Affine::new().set_a(7).set_b(12).encipher("6exa%mpletext"),"6orm%snloporp$");
+        assert_eq!(Affine::new().set_a(7).set_b(12).encipher("6exa%mpletext"),"6orm%snloporp");
     }
 
     #[test]

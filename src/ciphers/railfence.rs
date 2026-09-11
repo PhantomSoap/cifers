@@ -89,11 +89,11 @@ mod tests {
 
     #[test]
     fn encipher_mix_symbols() {
-        assert_eq!(Railfence::new().set_key(4).encipher("3x@mplEtexT"),String::from("3Exlt@peTmx"))
+        assert_eq!(Railfence::new().set_key(4).encipher("jNhdN&jod*"),String::from("jjN&ohNdd*"))
     }
     #[test]
     fn decipher_mix_symbols() {
-        assert_eq!(Railfence::new().set_key(4).decipher("3Exlt@peTmx"),String::from("3x@mplEtexT"))
+        assert_eq!(Railfence::new().set_key(4   ).decipher("jjN&ohNdd*"),String::from("jNhdN&jod*"))
     }
 
     #[test]
@@ -107,7 +107,7 @@ mod tests {
 
     #[test]
     fn get_rail_indices() {
-        assert_eq!(Railfence::new().set_key(15).get_rail_indices("exampletext".len()),vec![0, 1, 2, 3, 2, 1, 0, 1, 2, 3, 2])
+        assert_eq!(Railfence::new().set_key(4).get_rail_indices("exampletext".len()),vec![0, 1, 2, 3, 2, 1, 0, 1, 2, 3, 2])
     }
     
 
