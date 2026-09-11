@@ -1,17 +1,37 @@
 use crate::Cipher;
 
+
+fn gcd(mut a: u16, mut b: u16) -> u16 {
+    while b != 0 {
+        let temp = b;
+        b = a % temp;
+        a = temp;
+    }
+    a
+}
+
 pub struct CustomAffine {
     a : u16,
     b : u16,
     alphabet : String,
 }
 impl CustomAffine {
+    pub fn new(alphabet : String) -> Self{
+
+        Self {
+            a : 1,
+            b : 0,
+            alphabet,
+        }
+    }
     pub fn set_a(mut self,a : u16) -> Self {
+        assert!(gcd(a, self.alphabet.len() as u16) == 1);
         self.a = a;
         self
     }
 
     pub fn set_b(mut self,b : u16) -> Self {
+        assert!(b <=self.alphabet.len() as u16-1);
        self.b = b;
        self
     }

@@ -7,6 +7,8 @@ pub use ciphers::beaufort::Beaufort;
 pub use ciphers::redefence::Redefence;
 pub use ciphers::affine::Affine;
 pub use ciphers::railfence::Railfence;
+pub use ciphers::has_duplicate;
+pub use ciphers::is_alphabet;
 
 pub trait Cipher {
     fn encipher(&self,text : &str) -> String;

@@ -18,7 +18,7 @@ impl Beaufort {
 
     pub fn encode_char(&self,chr : char,code_chr : char) -> char {
         let base = if chr.is_ascii_uppercase() {b'A' as i16} else {b'a' as i16};
-        (base  + (((code_chr as i16 - b'A' as i16) -    (chr as i16 - base) +26) % 26)) as u8 as char
+        (base  + (((code_chr as i16 - b'A' as i16) - (chr as i16 - base) +26) % 26)) as u8 as char
     }
 }
 

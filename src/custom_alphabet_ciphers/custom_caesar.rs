@@ -1,3 +1,4 @@
+
 use crate::Cipher;
 
 pub struct CustomCaesar {
@@ -6,6 +7,12 @@ pub struct CustomCaesar {
 }
 
 impl CustomCaesar {
+    pub fn new(alphabet : String) -> Self {
+        Self {
+            shift : 0,
+            alphabet,
+        }
+    }
     pub fn set_shift(mut self,shift : i32) -> Self {
         self.shift = shift;
         self
