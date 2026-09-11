@@ -1,4 +1,4 @@
-use crate::{Cipher};
+use crate::{Cipher, custom_alphabet_ciphers::custom_caesar::CustomCaesar};
 
 pub struct Caeser {
     shift : i32,
@@ -16,6 +16,10 @@ impl Caeser {
     pub fn set_shift(mut self, shift : i32) -> Self{
         self.shift = shift;
         self
+    }
+    pub fn set_alphabet(self,alphabet : String) -> CustomCaesar{
+        assert!(super::has_duplicate(&alphabet));
+        CustomCaesar::new(alphabet)
     }
     pub fn rot_13() -> Self {
         Self { shift : 13 }

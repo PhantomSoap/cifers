@@ -1,6 +1,6 @@
 use rand::distr::{Alphabetic, SampleString};
 
-use crate::Cipher;
+use crate::{Cipher, custom_alphabet_ciphers::custom_beaufort::CustomBeaufort};
 
 pub struct Vigenere {
     code : String,
@@ -11,6 +11,10 @@ impl Vigenere {
         Self {
             code : String::from("")
         }
+    }
+    pub fn set_alphabet(self,alphabet : String) -> CustomBeaufort{
+        assert!(super::has_duplicate(&alphabet));
+        CustomBeaufort::new(alphabet)
     }
 
     pub fn set_code(mut self,code : String) -> Self {

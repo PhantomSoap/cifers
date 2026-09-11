@@ -1,4 +1,4 @@
-use crate::Cipher;
+use crate::{Cipher, custom_alphabet_ciphers::custom_affine::CustomAffine};
 
 pub struct Affine {
     a : i32,
@@ -12,6 +12,10 @@ impl Affine {
             a : 1,
             b : 0,
         }
+    }
+    pub fn set_alphabet(self,alphabet : String) -> CustomAffine{
+        assert!(super::has_duplicate(&alphabet));
+        CustomAffine::new(alphabet)
     }
 
     pub fn set_a(mut self,a : i32) -> Self {
