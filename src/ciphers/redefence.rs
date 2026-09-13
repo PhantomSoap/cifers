@@ -1,32 +1,49 @@
+//! Redefence cipher (columnar rail/route cipher variant).
+//!
+//! `Redefence` mixes a keyed column order with a rail-style index mapping to
+//! produce a transposition cipher. Provide a key via `set_code` to determine
+//! column ordering. Non-alphabetic characters are preserved in their positions.
+
 use crate::Cipher;
 
+/// Redefence transposition cipher parameterized by `code`.
+///
+/// # Examples
+///
+/// ```rust
+/// use cifers::Redefence;
+/// let c = Redefence::new().set_code(String::from("abcd"));
+/// assert_eq!(c.encipher("exampletext"), "eexltapetmx");
+/// ```
 pub struct Redefence {
-    code : String,
+    code: String,
 }
 
 impl Redefence {
+    /// Create a default `Redefence` with an empty code.
     pub fn new() -> Self {
-        Self {
-            code : String::new(),
-        }
+        Self { code: String::new() }
     }
 
-    pub fn set_code(mut self,code : String,) -> Self {
+    /// Set the key (`code`) used to order columns; the code is uppercased.
+    pub fn set_code(mut self, code: String) -> Self {
         self.code = code.to_ascii_uppercase();
         self
     }
 
-    pub fn get_rail_indices(&self, len : usize) -> Vec<usize> {
+    /// Compute rail indices using the length of the `code` as the number of rails.
+    pub fn get_rail_indices(&self, len: usize) -> Vec<usize> {
         if self.code.len() <= 1 {
-            return vec![0; len]
-        };
-
-        let cycle = (self.code.len() as usize-1) * 2;
-        (0..len).map( |i|{
-            let rem = i % cycle;
-            if rem < self.code.len() as usize {rem} else {cycle-rem}
+            return vec![0; len];
         }
-        ).collect()
+
+        let cycle = (self.code.len() as usize - 1) * 2;
+        (0..len)
+            .map(|i| {
+                let rem = i % cycle;
+                if rem < self.code.len() as usize { rem } else { cycle - rem }
+            })
+            .collect()
     }
 
 }

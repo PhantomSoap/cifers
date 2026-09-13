@@ -1,3 +1,15 @@
+/// Custom Vigenère cipher using an arbitrary alphabet ordering.
+///
+/// Provide an `alphabet` when creating the cipher and a key via `set_code`.
+/// Characters not present in the alphabet are preserved.
+///
+/// # Examples
+///
+/// ```rust
+/// use cifers::custom_alphabet_ciphers::custom_vigenere::CustomVigenere;
+/// let c = CustomVigenere::new(String::from("abcdefghijklmnopqrstuvwxyz")).set_code(String::from("ACRYLIC"));
+/// assert_eq!(c.encipher("exampletext"), "ezrkatgtgor");
+/// ```
 use rand::distr::{Alphabetic, SampleString};
 
 use crate::Cipher;

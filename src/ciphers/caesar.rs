@@ -1,7 +1,20 @@
 use crate::{Cipher, custom_alphabet_ciphers::custom_caesar::CustomCaesar};
 
+/// Caesar cipher implementation operating on the ASCII Latin alphabet.
+///
+/// `Caeser` supports setting a shift amount and provides convenience
+/// constructors such as `rot_13`. Non-alphabetic characters are left
+/// unchanged. This type implements the crate's `Cipher` trait.
+///
+/// # Examples
+///
+/// ```rust
+/// use cifers::Caeser;
+/// let c = Caeser::new().set_shift(3);
+/// assert_eq!(c.encipher("abc"), "def");
+/// ```
 pub struct Caeser {
-    shift : i32,
+    shift: i32,
 }
 
     
@@ -17,8 +30,12 @@ impl Caeser {
         self.shift = shift;
         self
     }
+    /// Create a `CustomCaesar` using a provided alphabet.
+    ///
+    /// The custom alphabet variant allows shifting with an arbitrary
+    /// alphabet ordering rather than the fixed Latin alphabet.
     pub fn set_alphabet(self,alphabet : String) -> CustomCaesar{
-        assert!(super::has_duplicate(&alphabet));
+        assert!(!super::has_duplicate(&alphabet));
         CustomCaesar::new(alphabet)
     }
     pub fn rot_13() -> Self {

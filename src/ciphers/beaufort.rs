@@ -1,28 +1,50 @@
+//! Beaufort cipher implementation.
+//!
+//! The Beaufort cipher is closely related to the Vigenère cipher but uses a
+//! different polyalphabetic transformation. This module exposes a simple
+//! `Beaufort` type that accepts a key and implements the crate `Cipher`
+//! trait. Non-alphabetic characters are preserved.
+
 use crate::{Cipher, custom_alphabet_ciphers::custom_beaufort::CustomBeaufort};
 
+/// Beaufort cipher holding an uppercase `code` key.
+///
+/// # Examples
+///
+/// ```rust
+/// use cifers::Beaufort;
+/// let c = Beaufort::new().set_code(String::from("Key"));
+/// assert_eq!(c.encipher("exampletext"), "ghyypnglunl");
+/// ```
 pub struct Beaufort {
-    code : String,
+    code: String,
 }
 
 impl Beaufort {
+    /// Create a new default `Beaufort` with an empty key.
     pub fn new() -> Self {
-        Self {
-            code : String::from(""),
-        }
+        Self { code: String::from("") }
     }
-    pub fn set_alphabet(self,alphabet : String) -> CustomBeaufort{
+
+    /// Switch to the custom-alphabet variant using `alphabet`.
+    pub fn set_alphabet(self, alphabet: String) -> CustomBeaufort {
         assert!(super::has_duplicate(&alphabet));
         CustomBeaufort::new(alphabet)
     }
 
-    pub fn set_code(mut self,code : String) -> Self {
+    /// Set the cipher key (code). The key is normalized to uppercase.
+    pub fn set_code(mut self, code: String) -> Self {
         self.code = code.to_uppercase();
         self
     }
 
-    pub fn encode_char(&self,chr : char,code_chr : char) -> char {
-        let base = if chr.is_ascii_uppercase() {b'A' as i16} else {b'a' as i16};
-        (base  + (((code_chr as i16 - b'A' as i16) - (chr as i16 - base) +26) % 26)) as u8 as char
+    /// Encode a single character using `code_chr` as the key character.
+    ///
+    /// This function preserves case of `chr` and assumes `code_chr` is
+    /// an ASCII uppercase letter.
+    pub fn encode_char(&self, chr: char, code_chr: char) -> char {
+        let base = if chr.is_ascii_uppercase() { b'A' as i16 } else { b'a' as i16 };
+        (base + (((code_chr as i16 - b'A' as i16) - (chr as i16 - base) + 26) % 26)) as u8 as char
     }
 }
 

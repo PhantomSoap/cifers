@@ -1,42 +1,65 @@
+//! Railfence (zig-zag) transposition cipher implementation.
+//!
+//! This module implements the Railfence cipher: characters are written in a
+//! zig-zag pattern across a number of rails (the `key`) and then read off
+//! row-by-row. The implementation provides helpers to compute the rail
+//! indices and to brute-force small keys.
+
 use crate::Cipher;
 
+/// Railfence cipher with a numeric `key` indicating the number of rails.
+///
+/// # Examples
+///
+/// ```rust
+/// use cifers::Railfence;
+/// let c = Railfence::new().set_key(4);
+/// assert_eq!(c.encipher("exampletext"), "eexltapetmx");
+/// ```
 pub struct Railfence {
-    key : u8,
+    key: u8,
 }
 
 impl Railfence {
-    pub fn new() -> Self{
-        
-        Self {
-            key : 1,
-        }
+    /// Create a new `Railfence` with a default key of 1 (no transposition).
+    pub fn new() -> Self {
+        Self { key: 1 }
     }
 
-    pub fn set_key(mut self,key : u8) -> Self{
-        
+    /// Set the rail `key` (number of rails).
+    pub fn set_key(mut self, key: u8) -> Self {
         self.key = key;
         self
     }
 
-    pub fn brute_force(text : &str) -> Vec<String> {
-        let mut vector : Vec<String> = Vec::new();
-        for i in 2..text.len()   {
+    /// Brute-force deciphering by trying keys from 2..text.len().
+    ///
+    /// Returns a vector with each candidate plaintext for inspection.
+    pub fn brute_force(text: &str) -> Vec<String> {
+        let mut vector: Vec<String> = Vec::new();
+        for i in 2..text.len() {
             vector.push(Self::new().set_key(i as u8).decipher(text));
-        };
+        }
         vector
     }
 
-    pub fn get_rail_indices(&self, len : usize) -> Vec<usize> {
+    /// Compute the rail index for every character position for the given
+    /// message length.
+    ///
+    /// Returns a `Vec<usize>` where each element is the rail number (0..key-1)
+    /// for the corresponding character position in the message.
+    pub fn get_rail_indices(&self, len: usize) -> Vec<usize> {
         if self.key <= 1 {
-            return vec![0; len]
-        };
-
-        let cycle = (self.key as usize-1) * 2;
-        (0..len).map( |i|{
-            let rem = i % cycle;
-            if rem < self.key as usize {rem} else {cycle-rem}
+            return vec![0; len];
         }
-        ).collect()
+
+        let cycle = (self.key as usize - 1) * 2;
+        (0..len)
+            .map(|i| {
+                let rem = i % cycle;
+                if rem < self.key as usize { rem } else { cycle - rem }
+            })
+            .collect()
     }
 }
 

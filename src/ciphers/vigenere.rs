@@ -1,15 +1,35 @@
+//! Vigenère cipher implementation and helpers.
+//!
+//! The `Vigenere` type implements a classical Vigenère-style polyalphabetic
+//! cipher. It accepts an alphabetic key (code) which is used to encipher and
+//! decipher alphabetic characters; non-alphabetic characters are preserved.
+//!
+//! A convenience method `vernam` is provided to create a one-time-pad like
+//! key of a given length using random alphabetic characters.
+
 use rand::distr::{Alphabetic, SampleString};
 
 use crate::{Cipher, custom_alphabet_ciphers::custom_beaufort::CustomBeaufort};
 
+/// Vigenère cipher that holds an uppercase alphabetic `code`.
+///
+/// Use `set_code` to provide the key used for encipher/decipher operations.
+///
+/// # Examples
+///
+/// ```rust
+/// use cifers::Vigenere;
+/// let c = Vigenere::new().set_code(String::from("acrylic"));
+/// assert_eq!(c.encipher("exampletext"), "ezrkatgtgor");
+/// ```
 pub struct Vigenere {
-    code : String,
+    code: String,
 }
 
 impl Vigenere {
     pub fn new() -> Self {
         Self {
-            code : String::from("")
+            code: String::from("")
         }
     }
     pub fn set_alphabet(self,alphabet : String) -> CustomBeaufort{
@@ -18,10 +38,8 @@ impl Vigenere {
     }
 
     pub fn set_code(mut self,code : String) -> Self {
-        
-            self.code = code.to_uppercase().chars().filter(|chr| chr.is_alphabetic()).collect();
-            self
-        
+        self.code = code.to_uppercase().chars().filter(|chr| chr.is_alphabetic()).collect();
+        self
     }
 
     pub fn encode_char(&self,chr : char,code_chr : char,decrypt : bool) -> char {
@@ -33,6 +51,9 @@ impl Vigenere {
         }
     }
 
+    /// Create a random code of `length` letters (Vernam-style running key).
+    ///
+    /// Useful when you want a one-time pad like key for short messages.
     pub fn vernam(length : usize)-> Self {
         Self {
             code : Alphabetic.sample_string(&mut rand::rng(), length),

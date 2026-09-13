@@ -1,9 +1,24 @@
 
 use crate::Cipher;
 
+/// Caesar cipher that uses a custom alphabet ordering.
+///
+/// `CustomCaesar` allows enciphering/deciphering using any provided
+/// alphabet string. The alphabet must contain unique characters and the
+/// cipher will shift characters according to their position within the
+/// supplied alphabet. Uppercase characters are preserved when present in
+/// the input.
+///
+/// # Examples
+///
+/// ```rust
+/// use cifers::custom_alphabet_ciphers::custom_caesar::CustomCaesar;
+/// let c = CustomCaesar::new(String::from("abcdefghijklmnopqrstuvwxyz")).set_shift(3);
+/// assert_eq!(c.encipher("abc"), "def");
+/// ```
 pub struct CustomCaesar {
-    shift : i32,
-    alphabet : String,
+    shift: i32,
+    alphabet: String,
 }
 
 impl CustomCaesar {

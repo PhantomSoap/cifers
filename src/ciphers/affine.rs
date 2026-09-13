@@ -1,53 +1,77 @@
+//! Affine cipher implementation.
+//!
+//! The Affine cipher is a monoalphabetic substitution defined by
+//! `E(x) = (a * x + b) mod 26`. This module exposes `Affine` with
+//! setters for the multiplicative `a` and additive `b` parameters. The
+//! `atbash` helper returns a commonly used parameter pair that implements
+//! the Atbash transformation.
+
 use crate::{Cipher, custom_alphabet_ciphers::custom_affine::CustomAffine};
 
+/// Affine cipher parameters `a` (multiplier) and `b` (shift).
+///
+/// `a` must be chosen so that it is invertible modulo 26 (i.e., gcd(a,26)=1).
+///
+/// # Examples
+///
+/// ```rust
+/// use cifers::Affine;
+/// let c = Affine::new().set_a(7).set_b(12);
+/// assert_eq!(c.encipher("exampletext"), "ormsnloporp");
+/// ```
 pub struct Affine {
-    a : i32,
-    b : i32,
+    a: i32,
+    b: i32,
 }
 
 impl Affine {
+    /// Create a default Affine cipher with `a=1, b=0` (identity transformation).
     pub fn new() -> Self {
-
-        Self {
-            a : 1,
-            b : 0,
-        }
+        Self { a: 1, b: 0 }
     }
-    pub fn set_alphabet(self,alphabet : String) -> CustomAffine{
+
+    /// Create a custom-alphabet variant.
+    pub fn set_alphabet(self, alphabet: String) -> CustomAffine {
         assert!(super::has_duplicate(&alphabet));
         CustomAffine::new(alphabet)
     }
 
-    pub fn set_a(mut self,a : i32) -> Self {
-        assert!(a % 13 !=0 && a % 2 !=0);
+    /// Set the multiplicative parameter `a`.
+    ///
+    /// Panics if `a` is not invertible modulo 26 (i.e., if `a` is even or
+    /// a multiple of 13 in this implementation).
+    pub fn set_a(mut self, a: i32) -> Self {
+        assert!(a % 13 != 0 && a % 2 != 0);
         self.a = a;
         self
     }
 
-    pub fn set_b(mut self,b : i32) -> Self {
-        assert!(b >= 0 && b <=25);
-       self.b = b;
-       self
+    /// Set the additive parameter `b` (0..=25).
+    pub fn set_b(mut self, b: i32) -> Self {
+        assert!(b >= 0 && b <= 25);
+        self.b = b;
+        self
     }
 
+    /// Return an `Affine` configured to perform an Atbash substitution.
     pub fn atbash() -> Self {
-        Self {
-            a : 25,
-            b : 25,
-        }
+        Self { a: 25, b: 25 }
     }
 
-    pub fn shift_char(&self,chr : char,decrypt : bool) -> char {
+    /// Shift a character according to the affine transformation.
+    ///
+    /// If `decrypt` is true the multiplicative inverse of `a` is used.
+    pub fn shift_char(&self, chr: char, decrypt: bool) -> char {
         if !chr.is_alphabetic() {
-            return chr
+            return chr;
         }
-        let base = if chr.is_ascii_uppercase() {b'A'} else {b'a'};
+        let base = if chr.is_ascii_uppercase() { b'A' } else { b'a' };
         if !decrypt {
             (((self.a as u32 * (chr as u32 - base as u32) + self.b as u32)) % 26 + base as u32) as u8 as char
         } else {
             let modinverse = (0..26).find(|&x| (self.a * x) % 26 == 1).unwrap();
             let shifted = (chr as i32 - base as i32 - self.b as i32).rem_euclid(26);
-            (((modinverse as i32 * shifted as i32)) % 26 + base as i32) as u8  as char
+            (((modinverse as i32 * shifted as i32)) % 26 + base as i32) as u8 as char
         }
     }
 }
