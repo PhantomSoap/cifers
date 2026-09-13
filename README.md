@@ -78,4 +78,4 @@ public APIs stable.
 
 ## License
 
-MIT / Apache-2.0 (your choice)
+MIT / Apache-2.0
