@@ -13,7 +13,7 @@
 
 
 use crate::Cipher;
-use crate::is_alphabet;
+
 
 pub struct CustomVigenere {
     alphabet : String,

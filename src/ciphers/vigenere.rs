@@ -4,8 +4,7 @@
 //! cipher. It accepts an alphabetic key (code) which is used to encipher and
 //! decipher alphabetic characters; non-alphabetic characters are preserved.
 //!
-//! A convenience method `vernam` is provided to create a one-time-pad like
-//! key of a given length using random alphabetic characters.
+
 
 
 
