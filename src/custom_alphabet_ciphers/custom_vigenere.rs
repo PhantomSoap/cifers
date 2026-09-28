@@ -10,7 +10,7 @@
 /// let c = CustomVigenere::new(String::from("abcdefghijklmnopqrstuvwxyz")).set_code(String::from("ACRYLIC"));
 /// assert_eq!(c.encipher("exampletext"), "ezrkatgtgor");
 /// ```
-use rand::distr::{Alphabetic, SampleString};
+
 
 use crate::Cipher;
 use crate::is_alphabet;

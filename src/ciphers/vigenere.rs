@@ -7,7 +7,7 @@
 //! A convenience method `vernam` is provided to create a one-time-pad like
 //! key of a given length using random alphabetic characters.
 
-use rand::distr::{Alphabetic, SampleString};
+
 
 use crate::{Cipher, custom_alphabet_ciphers::custom_beaufort::CustomBeaufort};
 
@@ -51,14 +51,8 @@ impl Vigenere {
         }
     }
 
-    /// Create a random code of `length` letters (Vernam-style running key).
-    ///
-    /// Useful when you want a one-time pad like key for short messages.
-    pub fn vernam(length : usize)-> Self {
-        Self {
-            code : Alphabetic.sample_string(&mut rand::rng(), length),
-        }
-    }
+    
+    
 
 
 
