@@ -2,7 +2,7 @@
 name = "cifers"
 version = "0.1.6"
 edition = "2024"
-license = "MIT"
+license = "Apache License 2.0"
 description = "rust crate for ciphers like Caeser, Vigenere... etc"
 
 [dependencies]
