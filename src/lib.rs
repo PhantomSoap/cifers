@@ -18,6 +18,16 @@
 //! assert_eq!(decrypted, "hello");
 //! ```
 //!
+//! Enciphering with the a Custom Alphabet:
+//!
+//! ```rust
+//! use cifers::{Caeser,Cipher};
+//!
+//! let cipher = Caeser::new().set_alphabet("abcdefghijklmnopqrstuvwxyz").set_shift(3);
+//! let encrypted = cipher.encipher("hello");
+//! let decrypted = cipher.decipher(&encrypted);
+//! assert_eq!(decrypted, "hello");
+//!
 //! # Crate layout
 //!
 //! - `ciphers/` — implementations that assume the Latin alphabet
