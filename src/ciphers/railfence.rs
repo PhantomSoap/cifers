@@ -12,7 +12,7 @@ use crate::Cipher;
 /// # Examples
 ///
 /// ```rust
-/// use cifers::Railfence;
+/// use cifers::{Railfence,Cipher};
 /// let c = Railfence::new().set_key(4);
 /// assert_eq!(c.encipher("exampletext"), "eexltapetmx");
 /// ```

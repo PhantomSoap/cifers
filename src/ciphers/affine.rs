@@ -15,7 +15,7 @@ use crate::{Cipher, custom_alphabet_ciphers::custom_affine::CustomAffine};
 /// # Examples
 ///
 /// ```rust
-/// use cifers::Affine;
+/// use cifers::{Affine,Cipher};
 /// let c = Affine::new().set_a(7).set_b(12);
 /// assert_eq!(c.encipher("exampletext"), "ormsnloporp");
 /// ```

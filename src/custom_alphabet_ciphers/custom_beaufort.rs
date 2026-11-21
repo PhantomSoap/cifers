@@ -1,18 +1,6 @@
 use crate::Cipher;
 
-/// Beaufort cipher variant that operates over a custom alphabet.
-///
-/// The provided `alphabet` defines the ordering used for substitution. Use
-/// `set_code` to provide the key; characters not present in the alphabet are
-/// preserved.
-///
-/// # Examples
-///
-/// ```rust
-/// use cifers::custom_alphabet_ciphers::custom_beaufort::CustomBeaufort;
-/// let c = CustomBeaufort::new(String::from("abcdefghijklmnopqrstuvwxyz")).set_code(String::from("KEY"));
-/// assert_eq!(c.encipher("example"), "ghyypn");
-/// ```
+
 pub struct CustomBeaufort {
     alphabet: String,
     code: String,

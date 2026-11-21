@@ -12,7 +12,7 @@ use crate::{Cipher, custom_alphabet_ciphers::custom_beaufort::CustomBeaufort};
 /// # Examples
 ///
 /// ```rust
-/// use cifers::Beaufort;
+/// use cifers::{Beaufort,Cipher};
 /// let c = Beaufort::new().set_code(String::from("Key"));
 /// assert_eq!(c.encipher("exampletext"), "ghyypnglunl");
 /// ```

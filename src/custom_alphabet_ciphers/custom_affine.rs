@@ -1,16 +1,4 @@
 use crate::Cipher;
-/// Custom Affine cipher that operates over an arbitrary alphabet string.
-        ///
-        /// The alphabet must contain unique characters. The multiplicative parameter
-        /// `a` must be invertible modulo the alphabet length (gcd(a, len) == 1).
-        ///
-        /// # Examples
-        ///
-        /// ```rust
-        /// use cifers::custom_alphabet_ciphers::custom_affine::CustomAffine;
-        /// let c = CustomAffine::new(String::from("abcdefghijklmnopqrstuvwxyz")).set_a(7).set_b(12);
-        /// assert_eq!(c.encipher("exampletext"), "ormsnloporp");
-        ///
 
 
     fn gcd(mut a: u16, mut b: u16) -> u16 {

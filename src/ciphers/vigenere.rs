@@ -17,7 +17,7 @@ use crate::{Cipher, custom_alphabet_ciphers::custom_beaufort::CustomBeaufort};
 /// # Examples
 ///
 /// ```rust
-/// use cifers::Vigenere;
+/// use cifers::{Cipher,Vigenere};
 /// let c = Vigenere::new().set_code(String::from("acrylic"));
 /// assert_eq!(c.encipher("exampletext"), "ezrkatgtgor");
 /// ```

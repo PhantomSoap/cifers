@@ -11,7 +11,7 @@ use crate::Cipher;
 /// # Examples
 ///
 /// ```rust
-/// use cifers::Redefence;
+/// use cifers::{Redefence,Cipher};
 /// let c = Redefence::new().set_code(String::from("abcd"));
 /// assert_eq!(c.encipher("exampletext"), "eexltapetmx");
 /// ```

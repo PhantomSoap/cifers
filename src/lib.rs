@@ -10,7 +10,7 @@
 //! Enciphering with the Caesar cipher:
 //!
 //! ```rust
-//! use cifers::Caeser;
+//! use cifers::{Caeser,Cipher};
 //!
 //! let cipher = Caeser::new().set_shift(3);
 //! let encrypted = cipher.encipher("hello");

@@ -9,7 +9,7 @@ use crate::{Cipher, custom_alphabet_ciphers::custom_caesar::CustomCaesar};
 /// # Examples
 ///
 /// ```rust
-/// use cifers::Caeser;
+/// use cifers::{Caeser,Cipher};
 /// let c = Caeser::new().set_shift(3);
 /// assert_eq!(c.encipher("abc"), "def");
 /// ```
