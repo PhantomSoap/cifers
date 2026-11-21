@@ -18,7 +18,7 @@
 //! assert_eq!(decrypted, "hello");
 //! ```
 //!
-//! Enciphering with the a Custom Alphabet:
+//! Enciphering with a Custom Alphabet:
 //!
 //! ```rust
 //! use cifers::{Caeser,Cipher};
