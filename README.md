@@ -33,9 +33,9 @@ assert_eq!(c.encipher("abc"), "def");
 ```
 Adding A Custom Alphabet To Regular Cipher:
 ```rust
-use cifers::custom_alphabet_ciphers::custom_caesar::CustomCaesar;
+use cifers::{Caeser,Cipher};
 
-let c = Caesar::new()set_alphabet(String::from("abcdefghijklmnopqrstuvwxyz")).set_shift(3);
+let c = Caesar::new().set_alphabet(String::from("abcdefghijklmnopqrstuvwxyz")).set_shift(3);
 assert_eq!(c.encipher("abc"), "def");
 ```
 
